@@ -22,7 +22,23 @@ const createProductCtrl = expressAsyncHandler(async (req, res) => {
     res.json(error);
   }
 });
-
+//--------------Fetch all products --------------------------------//
+const fetchProductsCtrl = expressAsyncHandler(async (req, res) => {
+  const hasCategory =req.query.category
+  try {
+    //check if it has a category
+    if(hasCategory){
+      const products = await Product.find({category:hasCategory}).sort('-createdAt');
+      res.json(products)
+    }else{
+      const products = await Product.find({}).sort("-createdAt");
+    res.json(products);
+    }
+    
+  } catch (error) {
+    res.json(error);
+  }
+});
 module.exports = {
-  createProductCtrl,
+  createProductCtrl,fetchProductsCtrl
 };

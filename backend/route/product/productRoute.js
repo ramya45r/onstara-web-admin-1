@@ -1,10 +1,11 @@
 const express = require("express");
-const { createProductCtrl,} = require("../../controllers/productCtrl");
-const { PhotoUpload,postImgResize } = require('../../middleware/upload');
+const { createProductCtrl,fetchProductsCtrl} = require("../../controllers/productCtrl");
+const { PhotoUpload,productImgResize} = require('../../middleware/upload');
 
 const productRoute = express.Router();
 
 productRoute.post("/",PhotoUpload.single('image'),
-postImgResize,createProductCtrl);
+productImgResize ,createProductCtrl);
+productRoute.get('/',fetchProductsCtrl);
 
 module.exports = productRoute;

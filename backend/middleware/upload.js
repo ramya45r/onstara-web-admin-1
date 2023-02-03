@@ -1,7 +1,6 @@
-
 const multer = require("multer");
-const sharp = require('sharp')
-const path = require('path');
+const sharp = require("sharp");
+const path = require("path");
 
 //storage
 const multerStorage = multer.memoryStorage();
@@ -9,7 +8,7 @@ const multerStorage = multer.memoryStorage();
 //file type checking
 const multerFilter = (req, file, cb) => {
   //check file type
-  if (file.mimetype.startsWith('image')) {
+  if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
     //rejected file
@@ -18,22 +17,18 @@ const multerFilter = (req, file, cb) => {
         message: "Unsupportednfile format",
       },
       false
-    )
+    );
   }
 };
 
-const PhotoUpload=multer({
-    storage:multerStorage,
-    fileFilter:multerFilter,
-    limits:{fileSize:1000000}
+const PhotoUpload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+  limits: { fileSize: 1000000 },
 });
 
-
-
-
-
-//Post Image Resizing
-const postImgResize = async (req, res, next) => {
+//Product Image Resizing
+const productImgResize = async (req, res, next) => {
   //check if there is no file
   if (!req.file) return next();
   req.file.filename = `user-${Date.now()}-${req.file.originalname}`;
@@ -46,6 +41,4 @@ const postImgResize = async (req, res, next) => {
   next();
 };
 
-
-
-module.exports ={PhotoUpload,postImgResize,}
+module.exports = { PhotoUpload, productImgResize };
