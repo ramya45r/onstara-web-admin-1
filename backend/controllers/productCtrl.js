@@ -6,6 +6,7 @@ const cloudinaryUploadImg = require("../utils/cloudinary");
 
 // create Post----------------------
 const createProductCtrl = expressAsyncHandler(async (req, res) => {
+  console.log("product");
   //1. get the path to img
   const localPath = `public/images/products/${req.file.filename}`;
   //2.upload to cloudinary
@@ -15,7 +16,7 @@ const createProductCtrl = expressAsyncHandler(async (req, res) => {
   try {
     const product = await Product.create({
       ...req.body,
-      //   image:imgUploaded?.url,
+      image: imgUploaded?.url,
     });
     res.json(product);
   } catch (error) {
@@ -24,21 +25,23 @@ const createProductCtrl = expressAsyncHandler(async (req, res) => {
 });
 //--------------Fetch all products --------------------------------//
 const fetchProductsCtrl = expressAsyncHandler(async (req, res) => {
-  const hasCategory =req.query.category
+  const hasCategory = req.query.category;
   try {
     //check if it has a category
-    if(hasCategory){
-      const products = await Product.find({category:hasCategory}).sort('-createdAt');
-      res.json(products)
-    }else{
+    if (hasCategory) {
+      const products = await Product.find({ category: hasCategory }).sort(
+        "-createdAt"
+      );
+      res.json(products);
+    } else {
       const products = await Product.find({}).sort("-createdAt");
-    res.json(products);
+      res.json(products);
     }
-    
   } catch (error) {
     res.json(error);
   }
 });
 module.exports = {
-  createProductCtrl,fetchProductsCtrl
+  createProductCtrl,
+  fetchProductsCtrl,
 };

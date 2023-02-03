@@ -27,7 +27,7 @@ const PhotoUpload = multer({
   limits: { fileSize: 1000000 },
 });
 
-//Product Image Resizing
+
 const productImgResize = async (req, res, next) => {
   //check if there is no file
   if (!req.file) return next();
